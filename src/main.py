@@ -70,7 +70,7 @@ def echo(message):
 
     if "/restart" in message.text.lower():
         arg = message.text.split(maxsplit=1)[1]
-        restart_vm_info = integrateYC.start_vm(iam_access_token, arg)
+        restart_vm_info = integrateYC.restart_vm(iam_access_token, arg)
 
         bot.send_message(message.chat.id, str(restart_vm_info))
         return

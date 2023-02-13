@@ -107,7 +107,7 @@ def get_instances_list(access_token):
                 {"external_ip": primaryV4Address}
             )
 
-    print(instances)
+    #print(instances)
     return instance_info
 
 
@@ -143,6 +143,7 @@ def restart_vm(access_token, vm_id):
     token = "Bearer " + access_token
     headers = {"Authorization": token}
     resp = requests.post(url, headers=headers)
+    print(resp.text)
     resp = resp.json()
 
     return str(resp)
