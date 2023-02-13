@@ -1,0 +1,38 @@
+name: Deploy Telegram Bot to Yandex Cloud Functions
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main] 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Deploy Function
+        id: sls-func
+        uses: yc-actions/yc-sls-function@v2.5.0
+        with:
+          yc-sa-json-credentials: ${{ secrets.YC_SA_JSON_CREDENTIALS }}
+          folder-id: ${{ secrets.FOLDER }}
+          function-name: ${{ secrets.FUNCTION_NAME }}
+          runtime: "python38"
+          memory: "128Mb"
+          entrypoint: "index.handler"
+          environment: |
+            CLOUD_ID=${{ secrets.CLOUD_ID }}
+            SUBNET_ID=${{ secrets.SUBNET_ID }}
+            YC_SERVICE_ACCOUNT_KEY_ID=${{ secrets.YC_SERVICE_ACCOUNT_KEY_ID }}
+            YC_SERVICE_ACCOUNT_ID=${{ secrets.YC_SERVICE_ACCOUNT_ID }}
+            FOLDER_ID=${{ secrets.FOLDER_ID}}
+            IMAGE_ID=${{ secrets.IMAGE_ID }}
+            BOT_TOKEN_LOCAL=${{ secrets.BOT_TOKEN_LOCAL }}
+            BOT_TOKEN_PROD=${{ secrets.BOT_TOKEN_PROD }}
+            USER_ID_ADMIN=${{ secrets.USER_ID_ADMIN }}
+          source-root: ./src
+            
