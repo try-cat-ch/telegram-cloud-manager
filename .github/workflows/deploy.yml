@@ -24,6 +24,7 @@ jobs:
           runtime: "python38"
           memory: "128Mb"
           entrypoint: "index.handler"
+          service-account: ${{ secrets.YC_SERVICE_ACCOUNT_ID }}
           environment: |
             CLOUD_ID=${{ secrets.CLOUD_ID }}
             SUBNET_ID=${{ secrets.SUBNET_ID }}
