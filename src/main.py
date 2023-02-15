@@ -38,33 +38,32 @@ def say_welcome(message):
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    if str(message.from_user.id) != str(os.environ.get("USER_ID_ADMIN")):
-        bot.send_message(message.chat.id, "fuck you")
-        return
+    if str(message.from_user.id) == str(os.environ.get("USER_ID_ADMIN")):
         
-    markup=types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
+        markup=types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 
-    list_organizations_button = types.KeyboardButton("List organizations")
-    list_clouds_button = types.KeyboardButton("List clouds")
-    list_folders_button = types.KeyboardButton("List folders")
-    list_vms_button = types.KeyboardButton("List VMs")
-    init_create_button = types.KeyboardButton("Create")
-    start_vm_button = types.KeyboardButton("Start")
-    stop_vm_button = types.KeyboardButton("Stop")
-    restart_vm_button = types.KeyboardButton("Restart")
-    delete_button = types.KeyboardButton("Delete")
+        list_organizations_button = types.KeyboardButton("List organizations")
+        list_clouds_button = types.KeyboardButton("List clouds")
+        list_folders_button = types.KeyboardButton("List folders")
+        list_vms_button = types.KeyboardButton("List VMs")
+        init_create_button = types.KeyboardButton("Create")
+        start_vm_button = types.KeyboardButton("Start")
+        stop_vm_button = types.KeyboardButton("Stop")
+        restart_vm_button = types.KeyboardButton("Restart")
+        delete_button = types.KeyboardButton("Delete")
 
-    markup.add(init_create_button)
-    markup.add(start_vm_button)
-    markup.add(stop_vm_button)
-    markup.add(restart_vm_button)
-    markup.add(delete_button)
-    markup.add(list_vms_button)
-    markup.add(list_folders_button)
-    markup.add(list_clouds_button)
-    markup.add(list_organizations_button)
-    
-    bot.send_message(message.chat.id, "Select",  reply_markup=markup)
+        markup.add(init_create_button)
+        markup.add(start_vm_button)
+        markup.add(stop_vm_button)
+        markup.add(restart_vm_button)
+        markup.add(delete_button)
+        markup.add(list_vms_button)
+        markup.add(list_folders_button)
+        markup.add(list_clouds_button)
+        markup.add(list_organizations_button)
+        
+        bot.send_message(message.chat.id, "Select",  reply_markup=markup)
+    else: return
 
 
 @bot.message_handler(content_types='text')
