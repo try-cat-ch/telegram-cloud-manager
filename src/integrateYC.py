@@ -65,25 +65,40 @@ def get_iam_serverless():
     return str(resp.get("access_token"))
 
 
-def get_folders(access_token):
-    url = (
-        "https://resource-manager.api.cloud.yandex.net/resource-manager/v1/folders?cloudId="
-        + CLOUD_ID
-    )
+def get_organizations(access_token):
+    url = "https://organization-manager.api.cloud.yandex.net/organization-manager/v1/organizations"
+    token = "Bearer " + access_token
+    headers = {"Authorization": token}
+
+    resp = requests.get(url, headers=headers)
+    print(resp)
+    resp = resp.json()
+
+    return resp
+
+def get_clouds(access_token, organization):
+    url = "https://resource-manager.api.cloud.yandex.net/resource-manager/v1/clouds?organizationId=" + organization
+    token = "Bearer " + access_token
+    headers = {"Authorization": token}
+
+    resp = requests.get(url, headers=headers)
+    
+    return resp.json()
+
+
+def get_folders(access_token, cloud=CLOUD_ID):
+    url = "https://resource-manager.api.cloud.yandex.net/resource-manager/v1/folders?cloudId=" + cloud # CLOUD_ID)
     token = "Bearer " + access_token
     headers = {"Authorization": token}
 
     resp = requests.get(url, headers=headers)
     resp = resp.json()
 
-    return str(resp)
+    return resp
 
 
-def get_instances_list(access_token):
-    url = (
-        "https://compute.api.cloud.yandex.net/compute/v1/instances?folderId="
-        + FOLDER_ID
-    )
+def get_instances_list(access_token, folder_id):
+    url = "https://compute.api.cloud.yandex.net/compute/v1/instances?folderId=" + folder_id
 
     token = "Bearer " + access_token
     headers = {"Authorization": token}
@@ -92,6 +107,9 @@ def get_instances_list(access_token):
     resp = resp.json()
 
     instances = resp.get("instances")
+    if instances == None:
+        return "Empty"
+        
     instance_info = {}  # {id1: {}, id2:[]}
 
     for instance in instances:
