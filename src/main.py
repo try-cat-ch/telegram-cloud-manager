@@ -38,6 +38,10 @@ def say_welcome(message):
 
 @bot.message_handler(commands=['start'])
 def start_message(message):
+    if str(message.from_user.id) != str(os.environ.get("USER_ID_ADMIN")):
+        bot.send_message(message.chat.id, "fuck you")
+        return
+        
     markup=types.ReplyKeyboardMarkup(resize_keyboard=True, one_time_keyboard=True)
 
     list_organizations_button = types.KeyboardButton("List organizations")
